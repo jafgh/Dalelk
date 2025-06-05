@@ -1,4 +1,4 @@
-name: Test Upload Artifact
+name: Build Flutter APK & Upload Artifact
 
 on:
   push:
@@ -7,19 +7,26 @@ on:
   workflow_dispatch:
 
 jobs:
-  test_job:
+  build_apk:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Create dummy file
-        run: |
-          echo "هذا اختبار لـ artifact" > test.txt
-
-      - name: Upload dummy artifact
-        uses: actions/upload-artifact@v3
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          name: dummy_file
-          path: test.txt
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Release APK
+        run: flutter build apk --release --no-sound-null-safety
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dalelk1_app_apk
+          path: build/app/outputs/flutter-apk/app-release.apk
