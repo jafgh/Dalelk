@@ -1,37 +1,27 @@
-name: dalelk1_app
-description: A simple Flutter WebView app for dalelk1.netlify.app
+name: dalelk1
+description: تطبيق Flutter بسيط مع أيقونة مخصصة
+publish_to: 'none' # إزالة هذا السطر إذا كنت ترغب في نشر الحزمة
 version: 1.0.0+1
-publish_to: "none" # تطبيق غير مخصص للـ pub.dev
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  # الحزمة المسؤولة عن WebView
-  webview_flutter: ^4.0.7
-
-  # لاستخدام أيقونة مخصصة بشكل تلقائي في Android/iOS
-  flutter_launcher_icons: ^0.12.0
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # تكوين flutter_launcher_icons
-  build_runner: any
+  flutter_launcher_icons: "^0.14.3"
 
 flutter:
-
   uses-material-design: true
-
   assets:
     - assets/icon.png
 
-# تكوين flutter_launcher_icons لاستخدام assets/icon.png
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/icon.png"
+  min_sdk_android: 21
