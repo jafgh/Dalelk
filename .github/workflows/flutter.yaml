@@ -1,41 +1,43 @@
 # .github/workflows/flutter.yaml
-name: "Flutter CI – Build APK"
 
+name: Build Flutter APK & Upload Artifact
+
+# شغّل العمل على أي دفع (push) إلى الفرع main أو عند تشغيله يدوياً
 on:
   push:
     branches:
-      - main   # أو الفرع الذي تعمل عليه
-  workflow_dispatch: # يتيح تشغيل الـ workflow يدويًا من واجهة GitHub
+      - main
+  workflow_dispatch:
 
 jobs:
-  build:
-    name: Build APK and Upload Artifact
+  build_apk:
+    name: Build Android APK
     runs-on: ubuntu-latest
 
     steps:
-      # (1) خطوة لسحب الكود من المستودع
-      - name: Checkout repository
+      # 1) خطوة checkout لسحب الكود
+      - name: "Checkout Repository"
         uses: actions/checkout@v3
 
-      # (2) إعداد Flutter (استخدم نسخة مستقرة)
-      - name: Setup Flutter
+      # 2) خطوة إعداد بيئة Flutter
+      - name: "Setup Flutter"
         uses: subosito/flutter-action@v2
         with:
           channel: stable
 
-      # (3) تثبيت dependencies وتشغيل flutter_launcher_icons
-      - name: Install dependencies & Generate Icons
+      # 3) تثبيت dependencies وتوليد الأيقونات
+      - name: "Install Dependencies & Generate Launcher Icons"
         run: |
           flutter pub get
           flutter pub run flutter_launcher_icons:main
 
-      # (4) بناء إصدار Android (APK)
-      - name: Build APK (release)
+      # 4) بناء تطبيق Android (APK) بإصدار release
+      - name: "Build Release APK"
         run: |
           flutter build apk --release --no-sound-null-safety
 
-      # (5) حفظ الـ APK كـ artifact
-      - name: Upload APK Artifact
+      # 5) رفع ملف الـ APK كـ artifact لتمكين تنزيله من واجهة GitHub
+      - name: "Upload APK Artifact"
         uses: actions/upload-artifact@v3
         with:
           name: dalelk1_app_apk
